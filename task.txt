@@ -1,0 +1,2 @@
+D1按附录G.1重建Oracle的候选池、初始排序与贪心替换步骤；D2抄出Tables12-14的Oracle R@5与对应retriever R@100并解释匹配；D3区分利用答案标签构造的Oracle与线上可用检索器，不能将其作为无标签部署性能；D4解释Figure4中检索覆盖与生成正确性的差距及ELI5 top5例外，避免声称严格通用上界。
+只根据所供原文。输出严格JSON，含decisions数组，id为D1至D4，各含answer、evidence数组（source_id、start_line、end_line整数且含两端）和limitations。无需重抄原文，按行定位。证据不足须明说。约1000中文字。

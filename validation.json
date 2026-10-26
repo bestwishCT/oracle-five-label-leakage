@@ -1,0 +1,98 @@
+{
+  "status": "ranges_valid",
+  "errors": [],
+  "semantic": "not_evaluated",
+  "excerpts": [
+    {
+      "decision": "D1",
+      "source_id": "A-P16",
+      "start_line": 19,
+      "end_line": 34,
+      "text": "Oracle. Since the original datasets do not contain\ngold passages at the same granularity level as our\nsetting (100-word passages), we approximate gold\npassages by running the following algorithm on the\ntop-100 retrieved passages. We first calculate the\nrecall score for each passage. Then, we sort the\npassages using their recall score and take the top 5\npassages as our initial oracle set. Finally, we iterate\nthrough all passages that were not initially in the or-\nacle set and try to replace the passages in the oracle\nset in a greedy fashion: we calculate the change in\nthe recall score of the oracle set for every possible\nreplacement and proceed with the replacement that\nresults in the largest recall improvement. The set\nof 5 oracle passages were able to match the recall\nscores of the top-100 retrieved passages."
+    },
+    {
+      "decision": "D2",
+      "source_id": "A-P16",
+      "start_line": 1,
+      "end_line": 4,
+      "text": "R@1 R@3 R@5 R@20 R@100\nDPR 29.6 44.5 51.5 64.6 74.1\nGTR 35.1 50.7 56.8 70.3 78.4\nOracle 63.8 72.8 78.4 - -"
+    },
+    {
+      "decision": "D2",
+      "source_id": "A-P16",
+      "start_line": 6,
+      "end_line": 9,
+      "text": "R@1 R@3 R@5 R@20 R@100\nDPR 6.7 13.5 17.6 30.4 47.6\nGTR 14.6 24.7 31.6 49.7 65.6\nOracle 44.3 58.7 65.6 - -"
+    },
+    {
+      "decision": "D2",
+      "source_id": "A-P16",
+      "start_line": 43,
+      "end_line": 46,
+      "text": "R@1 R@3 R@5 R@20 R@100\nBM25 3.0 6.6 9.6 19.3 31.8\nOracle 25.3 29.7 31.8 - -\nTable 14: Retrieval results for ELI5 (claim recall)."
+    },
+    {
+      "decision": "D2",
+      "source_id": "A-P8",
+      "start_line": 40,
+      "end_line": 41,
+      "text": "figure (dashed lines): “Vanilla (5-psg)” is ChatGPTVANILLA with top-5 passages in context; “Oracle” is the same\nmodel except that it uses 5 gold passages (§G.1), whose recall matches Recall@100 on all three datasets."
+    },
+    {
+      "decision": "D2",
+      "source_id": "A-P16",
+      "start_line": 33,
+      "end_line": 34,
+      "text": "of 5 oracle passages were able to match the recall\nscores of the top-100 retrieved passages."
+    },
+    {
+      "decision": "D3",
+      "source_id": "A-P16",
+      "start_line": 19,
+      "end_line": 26,
+      "text": "Oracle. Since the original datasets do not contain\ngold passages at the same granularity level as our\nsetting (100-word passages), we approximate gold\npassages by running the following algorithm on the\ntop-100 retrieved passages. We first calculate the\nrecall score for each passage. Then, we sort the\npassages using their recall score and take the top 5\npassages as our initial oracle set. Finally, we iterate"
+    },
+    {
+      "decision": "D3",
+      "source_id": "A-P16",
+      "start_line": 27,
+      "end_line": 34,
+      "text": "through all passages that were not initially in the or-\nacle set and try to replace the passages in the oracle\nset in a greedy fashion: we calculate the change in\nthe recall score of the oracle set for every possible\nreplacement and proceed with the replacement that\nresults in the largest recall improvement. The set\nof 5 oracle passages were able to match the recall\nscores of the top-100 retrieved passages."
+    },
+    {
+      "decision": "D3",
+      "source_id": "A-P8",
+      "start_line": 40,
+      "end_line": 41,
+      "text": "figure (dashed lines): “Vanilla (5-psg)” is ChatGPTVANILLA with top-5 passages in context; “Oracle” is the same\nmodel except that it uses 5 gold passages (§G.1), whose recall matches Recall@100 on all three datasets."
+    },
+    {
+      "decision": "D4",
+      "source_id": "A-P8",
+      "start_line": 38,
+      "end_line": 41,
+      "text": "Figure 4: Retrieval recall@k on ASQA (EM recall), QAMPARI (recall-5), and ELI5 (claim recall). Retrieval recall\nserves as an upper bound for model performance, and we compare them with two models’ correctness results in the\nfigure (dashed lines): “Vanilla (5-psg)” is ChatGPTVANILLA with top-5 passages in context; “Oracle” is the same\nmodel except that it uses 5 gold passages (§G.1), whose recall matches Recall@100 on all three datasets."
+    },
+    {
+      "decision": "D4",
+      "source_id": "A-P8",
+      "start_line": 71,
+      "end_line": 76,
+      "text": "(§G.1; the 5 gold passages match the retrieval re-\ncall@100). Notably, both models’ correctness lags\nbehind the corresponding retrieval recall (except\nfor ELI5 top-5). The discrepancy suggests that de-\nspite the presence of accurate answers in context,\nLLMs struggle to utilize them in their outputs."
+    },
+    {
+      "decision": "D4",
+      "source_id": "A-P8",
+      "start_line": 72,
+      "end_line": 76,
+      "text": "call@100). Notably, both models’ correctness lags\nbehind the corresponding retrieval recall (except\nfor ELI5 top-5). The discrepancy suggests that de-\nspite the presence of accurate answers in context,\nLLMs struggle to utilize them in their outputs."
+    },
+    {
+      "decision": "D4",
+      "source_id": "A-P16",
+      "start_line": 33,
+      "end_line": 34,
+      "text": "of 5 oracle passages were able to match the recall\nscores of the top-100 retrieved passages."
+    }
+  ]
+}

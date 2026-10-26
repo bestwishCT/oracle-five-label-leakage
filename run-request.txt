@@ -1,0 +1,216 @@
+独立记录号 65b2763b-906d-40f5-b79c-d5b4c1aaf34c（不含任务语义）
+先追踪gold信息进入哪一步，再核对三数据集的指标和表值；把候选池、集合覆盖和生成结果分层。
+D1按附录G.1重建Oracle的候选池、初始排序与贪心替换步骤；D2抄出Tables12-14的Oracle R@5与对应retriever R@100并解释匹配；D3区分利用答案标签构造的Oracle与线上可用检索器，不能将其作为无标签部署性能；D4解释Figure4中检索覆盖与生成正确性的差距及ELI5 top5例外，避免声称严格通用上界。
+只根据所供原文。输出严格JSON，含decisions数组，id为D1至D4，各含answer、evidence数组（source_id、start_line、end_line整数且含两端）和limitations。无需重抄原文，按行定位。证据不足须明说。约1000中文字。
+SOURCE A-P8 physical PDF page 8
+1: 5 20 50 100
+2: k
+3: 30
+4: 40
+5: 50
+6: 60
+7: 70
+8: 80Recall@k
+9:  Vanilla (5-psg)
+10: Oracle
+11: ASQA
+12: DPR
+13: GTR
+14: 5 20 50 100
+15: k
+16: 0
+17: 20
+18: 40
+19: 60
+20: Vanilla (5-psg)
+21: Oracle
+22: QAMPARI
+23: DPR
+24: GTR
+25: 5 20 50 100
+26: k
+27: 10
+28: 20
+29: 30
+30: Vanilla (5-psg)
+31: Oracle
+32: ELI5
+33: BM25
+34: Fluency Correct. Citation
+35: (MAUVE) (EM) Rec. Prec.
+36: ChatGPT(VANILLA)
+37: DPR (5-psg) 61.8 36.1 65.0 65.6GTR (1-psg) 69.5 38.4 56.0 64.0GTR (3-psg) 66.6 39.6 72.8 73.9GTR (5-psg) 66.6 40.4 73.6 72.5
+38: Figure 4: Retrieval recall@k on ASQA (EM recall), QAMPARI (recall-5), and ELI5 (claim recall). Retrieval recall
+39: serves as an upper bound for model performance, and we compare them with two models’ correctness results in the
+40: figure (dashed lines): “Vanilla (5-psg)” is ChatGPTVANILLA with top-5 passages in context; “Oracle” is the same
+41: model except that it uses 5 gold passages (§G.1), whose recall matches Recall@100 on all three datasets.
+42: Fluency Correct. Citation
+43: (MAUVE) (EM Rec.) Rec. Prec.
+44: Open-source(max #tokens=2K-4K)
+45: LLaMA-13B (3-psg) 68.4 26.9 10.6 15.4
+46: Vicuna-13B (3-psg) 82.6 31.9 51.1 50.1
+47: Chat-13B (5-psg) 72.4 35.2 38.4 39.4
+48: Chat-70B (5-psg) 88.3 41.5 62.9 61.3
+49: ChatGPT(max #tokens=4K)
+50: ChatGPT (3-psg) 66.6 39.6 72.8 73.9
+51: ChatGPT (5-psg) 66.6 40.4 73.6 72.5
+52: ChatGPT-16K(max #tokens=16K)
+53: ChatGPT (5-psg) 60.3 36.1 76.2 76.5
+54: ChatGPT (10-psg) 56.3 36.7 75.3 75.0
+55: ChatGPT (20-psg) 56.7 36.1 73.7 73.5
+56: GPT-4(max #tokens=8K)
+57: GPT-4 (5-psg) 67.1 41.3 68.5 75.6
+58: GPT-4 (10-psg) 71.5 43.1 72.0 75.5
+59: GPT-4 (20-psg) 64.9 44.4 73.0 76.5
+60: Table 7: Comparison of different LLMs on ASQA
+61: (GTR+VANILLA ). LLaMA-13B and Vicuna-13B have
+62: a context limit of 2,048 tokens, and thus can only use a
+63: short version of instructions and at most top-3 passages.
+64: Chat-13B and Chat-70B refer to LLaMA-2-Chat.
+65: retrievers. As the number of passages increases, re-
+66: trieval recall steadily improves. Additionally, Fig-
+67: ure 4 shows the correctness performance of two
+68: models: (1) ChatGPT VANILLA with top-5 pas-
+69: sages (our primary baseline); (2) an oracle ver-
+70: sion of the same model employing 5 gold passages
+71: (§G.1; the 5 gold passages match the retrieval re-
+72: call@100). Notably, both models’ correctness lags
+73: behind the corresponding retrieval recall (except
+74: for ELI5 top-5). The discrepancy suggests that de-
+75: spite the presence of accurate answers in context,
+76: LLMs struggle to utilize them in their outputs.
+77: We compare the impact of different retrievers
+78: and different numbers of passages to LLMs. Fig-
+79: ure 4 (right) shows that GTR outperforms DPR
+80: in both correctness and citation quality, emphasiz-
+81: ing the importance of deploying better retrievers.
+82: Contrary to the retrieval recall trend in Figure 4,
+83: more passages in context do not yield substantial
+84: improvement for ChatGPT. Specifically, correct-
+85: ness plateaus at top-1 passage and citation qual-
+86: ity plateaus at top-3. GPT-4 (Table 7) exhibits
+87: an increasing trend with more passages, but the
+88: improvement is not proportional to the retrieval
+89: performance. This indicates the limited ability of
+90: LLMs in utilizing multiple passages within context.
+91: 5.4 Other Ablations
+92: We provide additional ablations in §G. In summary,
+93: we find that (1) using comprehensive instructions
+94: enhances the citation quality of instruction-tuned
+95: models (§G.2); (2) including at least one demon-
+96: stration improves the performance (§G.3); (3) fine-
+97: tuned models (FiD; Izacard and Grave, 2021) with
+98: POST CITE lag behind LLMs in both correctness
+99: and citation quality and fail to generalize (§G.4).
+100: 6 Human Evaluation
+101: To verify that our automatic evaluation correlates
+102: with human judgement, we conduct human eval-
+103: uation on selected models and request workers to
+104: judge model generations on three dimensions simi-
+105: lar to Liu et al. (2023)—(1) utility: a 1-to-5 score
+106: indicating whether the generation helps answer the
+107: question; (2) citation recall: the annotator is given
+108: a sentence and all passages that the sentence cited,
+109: and is asked to judge whether the passages fully
+110: support the sentence; (3) citation precision: given
+111: a sentence and one of its citations, the annotator
+112: is asked to judge whether the citation “fully sup-
+113: ports”, “partially supports”, or “does not support”
+114: the sentence. Each citation gets a precision score
+115: 1 if the output sentence has a citation recall of 1
+116: and this citation at least “partially supports” it. See
+117: Appendix F for more details.
+118: Model outputs score high utility. The utility
+119: scores do not differ significantly between models,
+120: ranging 3.7-3.9 for ASQA and 3.5-3.6 for ELI5.
+121: Upon inspection, all tested models are mostly able
+122: 6472
+
+SOURCE A-P16 physical PDF page 16
+1: R@1 R@3 R@5 R@20 R@100
+2: DPR 29.6 44.5 51.5 64.6 74.1
+3: GTR 35.1 50.7 56.8 70.3 78.4
+4: Oracle 63.8 72.8 78.4 - -
+5: Table 12: Retrieval results for ASQA (EM recall).
+6: R@1 R@3 R@5 R@20 R@100
+7: DPR 6.7 13.5 17.6 30.4 47.6
+8: GTR 14.6 24.7 31.6 49.7 65.6
+9: Oracle 44.3 58.7 65.6 - -
+10: Table 13: Retrieval results for QAMPARI (recall-5).
+11: partially supports, or does not support the factual
+12: claims insi. Citation ci,jhas a citation precision
+13: of 1 ifsi has a recall of 1, andci,jfully or partially
+14: supportssi. Finally, we take an average of preci-
+15: sion scores of all citations in the statement S to
+16: obtain the citation precision score.
+17: G More Experiments
+18: G.1 Retrieval Analysis
+19: Oracle. Since the original datasets do not contain
+20: gold passages at the same granularity level as our
+21: setting (100-word passages), we approximate gold
+22: passages by running the following algorithm on the
+23: top-100 retrieved passages. We first calculate the
+24: recall score for each passage. Then, we sort the
+25: passages using their recall score and take the top 5
+26: passages as our initial oracle set. Finally, we iterate
+27: through all passages that were not initially in the or-
+28: acle set and try to replace the passages in the oracle
+29: set in a greedy fashion: we calculate the change in
+30: the recall score of the oracle set for every possible
+31: replacement and proceed with the replacement that
+32: results in the largest recall improvement. The set
+33: of 5 oracle passages were able to match the recall
+34: scores of the top-100 retrieved passages.
+35: Detailed retrieval results. We show detailed re-
+36: trieval results in Tables 12, 13, and 14.
+37: G.2 Effect of Instructions
+38: Table 15 shows results of using a full instruction
+39: (Table 23) and a short version of the instruction
+40: (Table 24). We see that the full version induces
+41: stronger correctness and citation recall, while the
+42: two instructions lead to similar citation precision.
+43: R@1 R@3 R@5 R@20 R@100
+44: BM25 3.0 6.6 9.6 19.3 31.8
+45: Oracle 25.3 29.7 31.8 - -
+46: Table 14: Retrieval results for ELI5 (claim recall).
+47: Fluency Correct. Citation
+48: (MAUVE) (EM Rec.) Rec. Prec.
+49: ChatGPT(VANILLA, 5-doc)
+50: Short instruction 64.1 39.5 69.6 73.2
+51: Full instruction 66.6 40.4 73.6 72.5
+52: Table 15: Effect of different instructions on ASQA.
+53: G.3 Effect of Demonstrations
+54: Table 16 shows results on effect of different num-
+55: bers of demonstrations. We see that numbers of
+56: demonstrations do not affect ChatGPT’s correct-
+57: ness but using at least one demonstration ensures
+58: high citation recall. For the original LLaMA model,
+59: Table 16 shows the trend that more demonstrations
+60: lead to better performance.
+61: G.4 Fine-tuned Models
+62: To better understand the differences between fine-
+63: tuned models and prompted large language mod-
+64: els, we train state-of-the-art question answer-
+65: ing model, Fusion-in-Decoder (FiD; Izacard and
+66: Grave (2021)), and evaluate it in conjunction with
+67: POST CITE. Due to the lack of training data with
+68: citation annotation, we first train a T5-base FiD
+69: model for 5 epochs on the ASQA training set with
+70: a batch size of 64 and a learning rate of 1e-4. Dur-
+71: ing evaluation, we use POST CITE to add citations
+72: to the output. We also usek = 5 passages during
+73: both training and evaluation of the FiD model.
+74: Then, we evaluate this model on both ASQA
+75: (in-domain) and ELI5 (out-of-domain), and the re-
+76: sults can be found in Tables 17 and 18. Note that
+77: this is not a direct comparison, as ALCE assumes
+78: only evaluation data available and uses only few-
+79: shot data for prompting. As the results show, the
+80: FiD baseline still significantly lags behind prompt-
+81: ing ChatGPT in both correctness and citation qual-
+82: ity (even though it is trained on 4000+ examples).
+83: When tested on another dataset (ELI5), FiD per-
+84: forms even worse, showing that it is challenging
+85: to solve the problem by fine-tuning a small pre-
+86: trained model.
+87: 6480

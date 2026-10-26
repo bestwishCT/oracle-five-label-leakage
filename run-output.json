@@ -1,0 +1,97 @@
+{
+  "decisions": [
+    {
+      "id": "D1",
+      "answer": "依据附录 G.1（文中原文）可重建 Oracle 的构造流程：候选池为对每个问题检索到的 top-100 passages（在 top-100 上计算），对每个候选 passage 计算其“recall score”，按该分数对候选池初始排序并取前 5 个作为初始 Oracle 集合；随后对不在初始集合的每个 passage 逐一尝试替换 Oracle 集合中的某一成员，计算替换后 Oracle 集合的 recall 变化，采用能带来最大 recall 提升的替换（贪心替换），迭代直到 5 个 Oracle passages 的集合能够匹配 top-100 的 recall（即达到与 Recall@100 相同的召回分数）。",
+      "evidence": [
+        {
+          "source_id": "A-P16",
+          "start_line": 19,
+          "end_line": 34
+        }
+      ],
+      "limitations": "文中给出的是算法描述与操作步骤，但未提供具体的 top-100 passage 列表、每个 passage 的 id 或实际文本，因而无法复现具体的候选项或逐步替换的中间状态；只能按文本层面重建算法流程，不能重现具体结果。"
+    },
+    {
+      "id": "D2",
+      "answer": "从文中 Tables 12–14 直接读出每表的 Oracle 在 R@5 的数值，并与表中相应检索器的 R@100 对应数值核对，可见三表中 Oracle 的 R@5 等于表内对应检索器的 R@100（这与文中关于 Oracle 能“match the recall scores of the top-100 retrieved passages”的说明一致）：（1）ASQA（Table 12）：Oracle R@5 = 78.4；表中 GTR 的 R@100 = 78.4；（2）QAMPARI（Table 13）：Oracle R@5 = 65.6；表中 GTR 的 R@100 = 65.6；（3）ELI5（Table 14）：Oracle R@5 = 31.8；表中 BM25 的 R@100 = 31.8。文中也明确指出（附录 G.1 与正文）5 个 gold passages 的召回可匹配 top-100 的召回，即 Oracle 的 R@5 与检索器的 R@100 一致。",
+      "evidence": [
+        {
+          "source_id": "A-P16",
+          "start_line": 1,
+          "end_line": 4
+        },
+        {
+          "source_id": "A-P16",
+          "start_line": 6,
+          "end_line": 9
+        },
+        {
+          "source_id": "A-P16",
+          "start_line": 43,
+          "end_line": 46
+        },
+        {
+          "source_id": "A-P8",
+          "start_line": 40,
+          "end_line": 41
+        },
+        {
+          "source_id": "A-P16",
+          "start_line": 33,
+          "end_line": 34
+        }
+      ],
+      "limitations": "仅能基于论文给出的表格数值逐项抄录与比对，无法访问表中检索器对具体 query 的 top-100 列表或逐题一致性；亦无法验证构造 Oracle 时是否对所有题目都精确达到逐题的 Recall@100，仅能根据文本说明与汇总数值判断总体匹配。"
+    },
+    {
+      "id": "D3",
+      "answer": "文中所称的 Oracle 不是一个无需标签即可在线部署的检索器，而是利用题目层面的“召回分数”来挑选和替换 passage 的构造化集合：附录 G.1 显示他们在 top-100 检索结果上计算每个 passage 的 recall 分数并据此选取/替换出 5 个 gold-like passages，以便使这 5 个 passage 的集合匹配 top-100 的召回分数。换言之，Oracle 是利用数据中可评估的召回/答案匹配信息（即与 gold answer 的对照）来构造的上界式集合，因此不能把 Oracle 的表现等同于在无标签、线上实际检索器的无监督部署性能。",
+      "evidence": [
+        {
+          "source_id": "A-P16",
+          "start_line": 19,
+          "end_line": 26
+        },
+        {
+          "source_id": "A-P16",
+          "start_line": 27,
+          "end_line": 34
+        },
+        {
+          "source_id": "A-P8",
+          "start_line": 40,
+          "end_line": 41
+        }
+      ],
+      "limitations": "文中沒有逐字写明“使用答案标签”这一表述，但通过‘计算 recall score’并以此挑选/替换可推断出需要与金标答案进行匹配；论文同时指出原数据在段落粒度上没有直接的 gold passages，故作者用近似方法构造 Oracle。我不能超出文本推断更多关于金标可用性或构造细节（例如是否使用额外人工标签或自动匹配阈值）。"
+    },
+    {
+      "id": "D4",
+      "answer": "论文在 Figure 4 的说明中明确：检索的 recall@k 被视为模型性能的上界（“Retrieval recall serves as an upper bound”），但实际观测到两个被比对模型（Vanilla ChatGPT 使用 top-5 passages 与 Oracle 版本）在正确性上普遍落后于对应的检索召回（except ELI5 top-5）。文中解释这一差距为“即便上下文中存在准确答案，LLMs 仍难以在生成中有效利用这些信息”（正文与图注）。ELI5 在 top-5 的例外被文中点出但未在正文中给出充分原因说明；因此不能将检索覆盖直接等同为生成正确性的严格普适上界——文本只报告了召回作为理论上界以及实际模型未达到该上界的观测，且 Oracle 的构造依赖于对 top-100 的近似和匹配（参见附录 G.1），因此不宜将该上界推广为对所有模型/场景的严格、无条件上界。",
+      "evidence": [
+        {
+          "source_id": "A-P8",
+          "start_line": 38,
+          "end_line": 41
+        },
+        {
+          "source_id": "A-P8",
+          "start_line": 71,
+          "end_line": 76
+        },
+        {
+          "source_id": "A-P8",
+          "start_line": 72,
+          "end_line": 76
+        },
+        {
+          "source_id": "A-P16",
+          "start_line": 33,
+          "end_line": 34
+        }
+      ],
+      "limitations": "文中报告了差距与观察（以及 ELI5 top-5 为例外），但并未在可用文本中提供该例外的充分定量或机制性解释；也未提供逐题分析或额外实验证据来证明差距的普适原因，因此不能从本文片段推断出普适性的因果结论或通用上界的严格性。"
+    }
+  ]
+}
